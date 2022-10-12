@@ -20,14 +20,16 @@ const cleavePriceSettings = {
 const cleaveCost = new Cleave(inputCost, cleavePriceSettings);
 const cleaveDownpayment = new Cleave(inputDownPayment, cleavePriceSettings);
 
-    // Чтобы сумма кредита отображалась сразу
-const totalAmount = +cleaveCost.getRawValue() - cleaveDownpayment.getRawValue();
-totalCost.innerText = priceFormatter.format(totalAmount);
-
-    // Отображение и расчет суммы кредита
-form.addEventListener('input', function() {
-
-    // Сумма кредита
+const calcMortage = () => {
     const totalAmount = +cleaveCost.getRawValue() - cleaveDownpayment.getRawValue();
     totalCost.innerText = priceFormatter.format(totalAmount);
+}
+
+// Чтобы сумма кредита отображалась сразу
+calcMortage();
+
+// Отображение и расчет суммы кредита
+form.addEventListener('input', function() {
+    // Сумма кредита
+    calcMortage();
 });
