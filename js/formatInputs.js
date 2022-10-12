@@ -10,5 +10,6 @@ const cleavePriceSettings = {
     delimiter: ' ',
 }
 
-const cleaveCost = new Cleave('#input-cost', cleavePriceSettings);
-const cleaveDownpayment = new Cleave('#input-downpayment', cleavePriceSettings);
+// Запускаем форматирование Cleave
+const cleaveCost = new Cleave(inputCost, cleavePriceSettings);
+const cleaveDownpayment = new Cleave(inputDownPayment, cleavePriceSettings);
