@@ -55,3 +55,23 @@ form.addEventListener('input', function() {
     // Сумма кредита
     calcMortage();
 });
+
+
+const sliderCost = document.querySelector('#slider-cost');
+
+noUiSlider.create(sliderCost, {
+    start: 12000000,
+    connect: 'lower',
+    tooltips: true,
+    step: 100000,
+    range: {
+        min: 0,
+        '50%': [10000000, 1000000],
+        max: 100000000,
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ' ',
+        suffix: '',
+    }),
+});
