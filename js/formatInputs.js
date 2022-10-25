@@ -25,7 +25,7 @@ const cleaveTerm = new Cleave(inputTerm, cleavePriceSettings);
 
 const calcMortage = () => {
     // Общая сумма кредита
-    const totalAmount = Number(cleaveCost.getRawValue()) - cleaveDownpayment.getRawValue();
+    const totalAmount = Number(cleaveCost.getRawValue()) - cleaveDownpayment.getRawValue(); // либо parseFloat(cleaveCost.getRawValue(), 2)
     totalCost.innerText = priceFormatter.format(totalAmount);
 
     // Ставка по кредиту
