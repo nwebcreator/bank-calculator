@@ -57,6 +57,7 @@ form.addEventListener('input', function() {
 });
 
 
+// Slider Cost
 const sliderCost = document.querySelector('#slider-cost');
 
 noUiSlider.create(sliderCost, {
@@ -74,4 +75,61 @@ noUiSlider.create(sliderCost, {
         thousand: ' ',
         suffix: '',
     }),
+});
+
+sliderCost.noUiSlider.on('update', function() {
+    const sliderValue = parseInt(sliderCost.noUiSlider.get(true));
+    cleaveCost.setRawValue(sliderValue);
+    calcMortage();
+});
+
+// Slider Downpayment
+const sliderDownpayment = document.querySelector('#slider-downpayment');
+
+noUiSlider.create(sliderDownpayment, {
+    start: 12000000,
+    connect: 'lower',
+    tooltips: true,
+    step: 100000,
+    range: {
+        min: 0,
+        '50%': [10000000, 1000000],
+        max: 100000000,
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ' ',
+        suffix: '',
+    }),
+});
+
+sliderDownpayment.noUiSlider.on('update', function() {
+    const sliderValue = parseInt(sliderDownpayment.noUiSlider.get(true));
+    cleaveDownpayment.setRawValue(sliderValue);
+    calcMortage();
+});
+
+// Slider Years
+const sliderTerm = document.querySelector('#slider-term');
+
+noUiSlider.create(sliderTerm, {
+    start: 1,
+    connect: 'lower',
+    tooltips: true,
+    step: 1,
+    range: {
+        min: 0,
+        max: 30,
+    },
+    format: wNumb({
+        decimals: 0,
+        thousand: ' ',
+        suffix: '',
+    }),
+});
+
+sliderTerm.noUiSlider.on('update', function() {
+    const sliderValue = parseInt(sliderTerm.noUiSlider.get(true));
+    cleaveTerm.setRawValue(sliderValue);
+    calcMortage();
 });
