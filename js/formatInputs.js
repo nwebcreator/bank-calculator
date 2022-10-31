@@ -87,7 +87,7 @@ sliderCost.noUiSlider.on('update', function() {
 const sliderDownpayment = document.querySelector('#slider-downpayment');
 
 noUiSlider.create(sliderDownpayment, {
-    start: 12000000,
+    start: 6000000,
     connect: 'lower',
     tooltips: true,
     step: 100000,
@@ -118,7 +118,7 @@ noUiSlider.create(sliderTerm, {
     tooltips: true,
     step: 1,
     range: {
-        min: 0,
+        min: 1,
         max: 30,
     },
     format: wNumb({
@@ -132,4 +132,16 @@ sliderTerm.noUiSlider.on('update', function() {
     const sliderValue = parseInt(sliderTerm.noUiSlider.get(true));
     cleaveTerm.setRawValue(sliderValue);
     calcMortage();
+});
+
+// Форматирование inputCost
+inputCost.addEventListener('input', function(){
+    const value = parseInt(cleaveCost.getRawValue());
+    if(value > 100000000) {
+        inputCost.closest('.param__details').classList.add('param__details--error');
+    }
+
+    if(value <= 100000000) {
+        inputCost.closest('.param__details').classList.remove('param__details--error');
+    }
 });
