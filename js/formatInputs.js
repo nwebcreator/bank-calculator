@@ -1,5 +1,7 @@
 import { priceFormatter, priceFormatterDecimals } from "./formatters.js";
 
+const maxPrice = 100000000;
+
 // Инпуты
 const inputCost = document.querySelector('#input-cost');
 const inputDownPayment = document.querySelector('#input-downpayment');
@@ -24,6 +26,12 @@ const cleaveTerm = new Cleave(inputTerm, cleavePriceSettings);
 
 
 const calcMortage = () => {
+
+    let cost = parseInt(cleaveCost.getRawValue());
+    if(cost > maxPrice) {
+        cost = maxPrice;
+    }
+
     // Общая сумма кредита
     const totalAmount = Number(cleaveCost.getRawValue()) - cleaveDownpayment.getRawValue(); // либо parseFloat(cleaveCost.getRawValue(), 2)
     totalCost.innerText = priceFormatter.format(totalAmount);
@@ -68,7 +76,7 @@ noUiSlider.create(sliderCost, {
     range: {
         min: 0,
         '50%': [10000000, 1000000],
-        max: 100000000,
+        max: maxPrice,
     },
     format: wNumb({
         decimals: 0,
@@ -77,7 +85,7 @@ noUiSlider.create(sliderCost, {
     }),
 });
 
-sliderCost.noUiSlider.on('update', function() {
+sliderCost.noUiSlider.on('slide', function() {
     const sliderValue = parseInt(sliderCost.noUiSlider.get(true));
     cleaveCost.setRawValue(sliderValue);
     calcMortage();
@@ -93,8 +101,7 @@ noUiSlider.create(sliderDownpayment, {
     step: 100000,
     range: {
         min: 0,
-        '50%': [10000000, 1000000],
-        max: 100000000,
+        max: 10000000,
     },
     format: wNumb({
         decimals: 0,
@@ -103,7 +110,7 @@ noUiSlider.create(sliderDownpayment, {
     }),
 });
 
-sliderDownpayment.noUiSlider.on('update', function() {
+sliderDownpayment.noUiSlider.on('slide', function() {
     const sliderValue = parseInt(sliderDownpayment.noUiSlider.get(true));
     cleaveDownpayment.setRawValue(sliderValue);
     calcMortage();
@@ -128,7 +135,7 @@ noUiSlider.create(sliderTerm, {
     }),
 });
 
-sliderTerm.noUiSlider.on('update', function() {
+sliderTerm.noUiSlider.on('slide', function() {
     const sliderValue = parseInt(sliderTerm.noUiSlider.get(true));
     cleaveTerm.setRawValue(sliderValue);
     calcMortage();
@@ -137,11 +144,36 @@ sliderTerm.noUiSlider.on('update', function() {
 // Форматирование inputCost
 inputCost.addEventListener('input', function(){
     const value = parseInt(cleaveCost.getRawValue());
-    if(value > 100000000) {
+
+    // Обновляем range slider
+    sliderCost.noUiSlider.set(value);
+
+    // Проверка на max цену
+    if(value > maxPrice) {
         inputCost.closest('.param__details').classList.add('param__details--error');
     }
 
-    if(value <= 100000000) {
+    if(value <= maxPrice) {
         inputCost.closest('.param__details').classList.remove('param__details--error');
     }
+
+    // Зависимость значений downpayment in input cost
+    const persentMin = value * 0.15;
+    const persentMax = value * 0.90;
+
+    updateSlider.noUiSlider.updateOptions({
+        range: {
+            min: persentMin,
+            max: persentMax,
+        }
+    });
 });
+
+inputCost.addEventListener('change', function () {
+    const value = parseInt(cleaveCost.getRawValue());
+
+    if(value > maxPrice) {
+        inputCost.closest('param__details').classList.remove('param__details--error');
+        cleaveCost.setRawValue(maxPrice);
+    }
+})
