@@ -17,7 +17,7 @@ const cleavePriceSettings = {
     numeral: true,
     numeralThousandsGroupStyle: 'thousand',
     delimiter: ' ',
-}
+};
 
 // Запускаем форматирование Cleave
 const cleaveCost = new Cleave(inputCost, cleavePriceSettings);
@@ -175,4 +175,4 @@ inputCost.addEventListener('change', function () {
         inputCost.closest('param__details').classList.remove('param__details--error');
         cleaveCost.setRawValue(maxPrice);
     }
-})
+});
