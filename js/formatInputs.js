@@ -152,7 +152,6 @@ inputCost.addEventListener('input', function(){
     if(value > maxPrice) {
         inputCost.closest('.param__details').classList.add('param__details--error');
     }
-
     if(value <= maxPrice) {
         inputCost.closest('.param__details').classList.remove('param__details--error');
     }
